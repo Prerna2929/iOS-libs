@@ -67,8 +67,17 @@
 {
     NSMutableData *body = [NSMutableData data];
     uint i = 0;
-    for (NSString *path in paths) {
-        NSData *data        = [NSData dataWithContentsOfFile:path];
+    for (id path in paths) {
+        NSData *data;
+        
+        if([path isKindOfClass:[NSString class]]) {
+            data        = [NSData dataWithContentsOfFile:path];
+        }
+        
+        else if([path isKindOfClass:[UIImage class]]) {
+            data        = UIImageJPEGRepresentation(path, 1);
+        }
+        
         NSString *filename  = [path lastPathComponent];
         
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
