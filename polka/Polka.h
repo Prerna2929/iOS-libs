@@ -46,7 +46,6 @@
 #import "PLKKeyboardAttachedView.h"
 
 #import "PLKTabBarController.h"
-#import "PLKTabBarNavigationController.h"
 
 #import "PLKCache.h"
 #import "PLKDate.h"
