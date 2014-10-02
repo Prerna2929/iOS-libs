@@ -69,16 +69,18 @@
     uint i = 0;
     for (id path in paths) {
         NSData *data;
+        NSString *filename;
         
         if([path isKindOfClass:[NSString class]]) {
             data        = [NSData dataWithContentsOfFile:path];
+            filename    = [path lastPathComponent];
         }
         
         else if([path isKindOfClass:[UIImage class]]) {
             data        = UIImageJPEGRepresentation(path, 1);
+            filename    = [NSString stringWithFormat:@"%@.jpg", [PLKHash uuid]];
         }
         
-        NSString *filename  = [path lastPathComponent];
         
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%i\"; filename=\"%@\"\r\n", i, filename] dataUsingEncoding:NSUTF8StringEncoding]];

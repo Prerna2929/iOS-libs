@@ -52,6 +52,7 @@
 #import "PLKHash.h"
 #import "PLKNumber.h"
 #import "PLKString.h"
+#import "PLKImage.h"
 
 #import "PLKTextView.h"
 #import "PLKTextFieldWithPadding.h"
