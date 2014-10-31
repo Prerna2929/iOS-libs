@@ -14,4 +14,6 @@
 
 + (NSString *)removeLatinCharacters:(NSString *)string;
 
++ (NSString *)urlEncode:(NSString *)str;
+
 @end

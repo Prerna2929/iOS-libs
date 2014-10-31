@@ -29,4 +29,8 @@ typedef void (^PLKRequestCompletionHandler)(NSData *data);
 
 + (NSURL *)getFormedURLWithParams:(NSString *)url getDictionary:(NSDictionary *)get;
 
++ (NSString *)queryStringWithParams:(NSDictionary *)params;
+
++ (id)urlEncode:(id)value;
+
 @end

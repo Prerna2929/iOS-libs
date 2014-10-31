@@ -25,4 +25,13 @@
     return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
++ (NSString *)urlEncode:(NSString *)str
+{
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                 (CFStringRef)str,
+                                                                                 NULL,
+                                                                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                 kCFStringEncodingUTF8));
+}
+
 @end

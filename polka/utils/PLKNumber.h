@@ -12,4 +12,7 @@
 
 + (NSString *)stringWithDecimalSeparator:(NSString *)number;
 
++ (NSString *)stringWithDecimalSeparator:(NSString *)number
+                       groupingSeparator:(NSString *)groupingSeparator
+                        decimalSeparator:(NSString *)decimalSeparator;
 @end

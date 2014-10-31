@@ -106,11 +106,24 @@ static NSString *PLKRequestPrefixURL = @"";
     NSMutableArray *query = [NSMutableArray array];
     if ([params count]) {
         for (id key in params) {
-            NSString *param = [NSString stringWithFormat:@"%@=%@", key, params[key]];
+            NSString *param = [NSString stringWithFormat:@"%@=%@", key, [self urlEncode:params[key]]];
             [query addObject:param];
         }
     }
     return [query componentsJoinedByString:@"&"];
+}
+
++ (id)urlEncode:(id)value
+{
+    if([value isKindOfClass:[NSString class]]) {
+        return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                     (CFStringRef)value,
+                                                                                     NULL,
+                                                                                     (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                     kCFStringEncodingUTF8));
+    }
+    
+    return value;
 }
 
 @end

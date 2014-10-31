@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Polka. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @protocol PLKSocketClientDelegate <NSObject>
 

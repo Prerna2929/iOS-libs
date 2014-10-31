@@ -12,11 +12,18 @@
 
 + (NSString *)stringWithDecimalSeparator:(NSString *)number
 {
+    return [self stringWithDecimalSeparator:number groupingSeparator:@"," decimalSeparator:@"."];
+}
+
++ (NSString *)stringWithDecimalSeparator:(NSString *)number
+                       groupingSeparator:(NSString *)groupingSeparator
+                       decimalSeparator:(NSString *)decimalSeparator
+{
     NSNumber *aux = [NSNumber numberWithInt:[number doubleValue]];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setGroupingSeparator:@"."];
+    [formatter setGroupingSeparator:groupingSeparator];
     [formatter setUsesGroupingSeparator:YES];
-    [formatter setDecimalSeparator:@","];
+    [formatter setDecimalSeparator:decimalSeparator];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [formatter setMaximumFractionDigits:2];
     return [formatter stringFromNumber:aux];
