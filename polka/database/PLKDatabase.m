@@ -54,7 +54,6 @@ static BOOL opened = NO;
     if(!opened) {
         NSString *writableDBPath = [self getDBPath];
         if (sqlite3_open([writableDBPath UTF8String], &db) == SQLITE_OK) {
-            NSLog(@">> SQLite open success.");
             opened = YES;
         }
         else {
@@ -73,70 +72,69 @@ static BOOL opened = NO;
 }
 
 
-+ (NSMutableArray *)executeSentence:(NSString *)sentence sentenceIsSelect:(BOOL )isSelect
++ (BOOL)executeQuery:(NSString *)sentence
 {
-    
     // Variables para realizar la consulta
-    sqlite3_stmt *resultado;
-    const char* siguiente;
-    NSMutableArray *res = nil;
+    sqlite3_stmt *result;
+    const char* next;
+    int rc;
     
     @synchronized(self) {
         
         [self open];
         
-        if (isSelect){
-            
-            // Ejecuta la consulta
-            if ( sqlite3_prepare_v2(db,[sentence UTF8String],(uint)[sentence length],&resultado,&siguiente) == SQLITE_OK ){                
-                res = [NSMutableArray array];
-                // Recorre el resultado
-                
-                while (sqlite3_step(resultado)==SQLITE_ROW) {
-                    
-                    int cols = sqlite3_column_count(resultado);
-                    
-                    NSMutableArray *rar = [NSMutableArray arrayWithCapacity:cols];
-                    for(int i=0; i<cols; i++) {
-                        int colType = sqlite3_column_type(resultado, i);
-                        id value;
-                        
-                        if (colType == SQLITE_TEXT) {
-                            value = [NSString stringWithUTF8String: (char *)sqlite3_column_text(resultado, i)];
-                        } else if (colType == SQLITE_INTEGER) {
-                            int col = sqlite3_column_int(resultado, i);
-                            value = [NSNumber numberWithInt:col];
-                        } else if (colType == SQLITE_FLOAT) {
-                            double col = sqlite3_column_double(resultado, i);
-                            value = [NSNumber numberWithDouble:col];
-                        } else if (colType == SQLITE_NULL) {
-                            value = @"";
-                        } else {
-                            value = @"";
-                            NSLog(@"[SQLITE] UNKNOWN DATATYPE");
-                        }
-                        
-                        [rar addObject:value];
-                    }
-                    
-                    [res addObject:rar];
-                }
-                
-                sqlite3_finalize(resultado);
-            }
+        // Ejecuta la consulta
+        if ( sqlite3_prepare_v2(db, [sentence UTF8String], (uint)[sentence length], &result, &next) == SQLITE_OK ) {
+            rc = sqlite3_step(result);
+            sqlite3_finalize(result);
         }
-        else {
-            // Ejecuta la consulta
-            if ( sqlite3_prepare_v2(db,[sentence UTF8String],(uint)[sentence length],&resultado,&siguiente) == SQLITE_OK ) {
-                sqlite3_step(resultado);
-                sqlite3_finalize(resultado);
-            }
-        }
-        
-        
-        
     }
+    return (rc == SQLITE_DONE || rc == SQLITE_OK);
+}
+
++ (NSMutableArray *)executeSentence:(NSString *)sentence
+{
+    sqlite3_stmt *result;
+    const char* next;
+    NSMutableArray *res = nil;
     
+    @synchronized(self) {
+        [self open];
+        if ( sqlite3_prepare_v2(db, [sentence UTF8String], (uint)[sentence length], &result, &next) == SQLITE_OK ){
+            res = [NSMutableArray array];
+            
+            while (sqlite3_step(result)==SQLITE_ROW) {
+                    
+                int cols = sqlite3_column_count(result);
+                    
+                NSMutableArray *rar = [NSMutableArray arrayWithCapacity:cols];
+                for (int i = 0; i < cols; i++) {
+                    int colType = sqlite3_column_type(result, i);
+                    id value;
+                    
+                    if (colType == SQLITE_TEXT) {
+                        value = [NSString stringWithUTF8String: (char *)sqlite3_column_text(result, i)];
+                    } else if (colType == SQLITE_INTEGER) {
+                        int col = sqlite3_column_int(result, i);
+                        value = [NSNumber numberWithInt:col];
+                    } else if (colType == SQLITE_FLOAT) {
+                        double col = sqlite3_column_double(result, i);
+                        value = [NSNumber numberWithDouble:col];
+                    } else if (colType == SQLITE_NULL) {
+                        value = @"";
+                    } else {
+                        value = @"";
+                        NSLog(@"[SQLITE] UNKNOWN DATATYPE");
+                    }
+                    [rar addObject:value];
+                }
+                [res addObject:rar];
+            }
+            sqlite3_finalize(result);
+        } else {
+            NSLog(@"SQLLite query error: %s", sqlite3_errmsg(db));
+        }
+    }
     return res;
 }
 
@@ -159,7 +157,7 @@ static BOOL opened = NO;
     
     NSString *values = [values_arr componentsJoinedByString:@","];
     NSString *sql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (%@)", table, keys, values];
-    [self executeSentence:sql sentenceIsSelect:NO];
+    [self executeQuery:sql];
 }
 
 

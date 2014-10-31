@@ -49,7 +49,7 @@ static NSString *PLKRequestPrefixURL = @"";
     if(self) {
         NSString *fullURL = [NSString stringWithFormat:@"%@%@", PLKRequestPrefixURL, url];
         NSURL *urlString = [[self class] getFormedURLWithParams:fullURL getDictionary:(NSDictionary *)get];
-        
+        NSLog(@"%@", urlString);
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
         

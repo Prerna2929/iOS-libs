@@ -18,7 +18,9 @@
 
 + (void)close;
 
-+ (NSMutableArray *)executeSentence:(NSString *)sentence sentenceIsSelect:(BOOL )isSelect;
++ (BOOL)executeQuery:(NSString *)sentence;
+
++ (NSMutableArray *)executeSentence:(NSString *)sentence;
 
 + (void)insertInTable:(NSString *)table fromDictionary:(NSDictionary *)dictionary;
 
