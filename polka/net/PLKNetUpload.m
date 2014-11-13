@@ -8,6 +8,7 @@
 
 #import "PLKNetUpload.h"
 #import "PLKRequest.h"
+#import "PLKHash.h"
 
 @implementation PLKNetUpload
 

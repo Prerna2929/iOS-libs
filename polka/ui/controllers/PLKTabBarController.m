@@ -8,7 +8,7 @@
 
 #import "PLKTabBarController.h"
 #import <objc/runtime.h>
-
+#import "PLKObjects.h"
 
 #define _UITABBARHEIGHT 49.f
 

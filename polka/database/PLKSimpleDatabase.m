@@ -13,6 +13,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:value forKey:key];
+    [userDefaults synchronize];
 }
 
 

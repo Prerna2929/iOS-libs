@@ -5,6 +5,7 @@
 //  Copyright (c) 2014 Alvaro Talavera. All rights reserved.
 //
 
+#ifdef SQLITE_OK
 #import "PLKDatabase.h"
 
 #ifndef _SQLPATH
@@ -164,3 +165,4 @@ static BOOL opened = NO;
 
 
 @end
+#endif

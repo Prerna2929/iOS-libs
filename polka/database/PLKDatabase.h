@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Alvaro Talavera. All rights reserved.
 //
 
+#ifdef SQLITE_OK
 #import <Foundation/Foundation.h>
-
 #import "sqlite3.h"
 
 @interface PLKDatabase : NSObject
@@ -25,3 +25,5 @@
 + (void)insertInTable:(NSString *)table fromDictionary:(NSDictionary *)dictionary;
 
 @end
+
+#endif
