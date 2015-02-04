@@ -40,7 +40,11 @@
     NSRunLoop *runloop = [NSRunLoop currentRunLoop];
     timer = [NSTimer timerWithTimeInterval:15.0 target:self selector:@selector(heartbeatLoop) userInfo:nil repeats:YES];
     [runloop addTimer:timer forMode:NSRunLoopCommonModes];
+    
+#ifdef CF_NETWORK_FRAMEWORK
     [runloop addTimer:timer forMode:UITrackingRunLoopMode];
+#endif
+    
 }
 
 - (void)connect

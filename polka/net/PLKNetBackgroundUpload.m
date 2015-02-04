@@ -7,6 +7,7 @@
 //
 
 #import "PLKNetBackgroundUpload.h"
+#import "PLKRequest.h"
 
 @interface FileUploadInfo : NSObject
 

@@ -7,6 +7,7 @@
 //
 
 #import "PLKNetDownload.h"
+#import "PLKRequest.h"
 
 @implementation PLKNetDownload
 

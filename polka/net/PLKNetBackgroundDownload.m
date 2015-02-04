@@ -7,6 +7,7 @@
 //
 
 #import "PLKNetBackgroundDownload.h"
+#import "PLKRequest.h"
 
 @interface FileDownloadInfo : NSObject
 
